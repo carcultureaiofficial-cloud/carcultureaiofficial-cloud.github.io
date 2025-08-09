@@ -245,410 +245,359 @@
         </div>
     </div>
 
-    <script>
-        // --- DOM Element References ---
-        const yearSlider = document.getElementById('year-slider');
-        const yearDisplay = document.getElementById('year-display');
-        const generateButton = document.getElementById('generate-button');
-        const resultCard = document.getElementById('result-card');
-        const loadingIndicator = document.getElementById('loading-indicator');
-        const contentWrapper = document.getElementById('content-wrapper');
-        const eventImage = document.getElementById('event-image');
-        const carModel = document.getElementById('car-model');
-        const carDescription = document.getElementById('car-description');
-        const errorMessage = document.getElementById('error-message');
-        const eraButtonsContainer = document.getElementById('era-buttons');
-        const sliderMinLabel = document.getElementById('slider-min-label');
-        const sliderMaxLabel = document.getElementById('slider-max-label');
-        const sceneSelect = document.getElementById('scene-select');
-        const modStyleSelect = document.getElementById('mod-style-select');
-        const liverySelect = document.getElementById('livery-select');
-        const carTypeSelect = document.getElementById('car-type-select');
-        const cameraAngleSelect = document.getElementById('camera-angle-select');
-        const timeSelect = document.getElementById('time-select');
-        const seasonSelect = document.getElementById('season-select');
-        const carModelInput = document.getElementById('car-model-input');
-        const modernEraButton = document.getElementById('modern-era-button');
-        const currentLangBtn = document.getElementById('current-lang-btn');
-        const currentLangFlag = document.getElementById('current-lang-flag');
-        const languageDropdown = document.getElementById('language-dropdown');
+<script>
+    // --- DOM Element References ---
+    const yearSlider = document.getElementById('year-slider');
+    const yearDisplay = document.getElementById('year-display');
+    const generateButton = document.getElementById('generate-button');
+    const resultCard = document.getElementById('result-card');
+    const loadingIndicator = document.getElementById('loading-indicator');
+    const contentWrapper = document.getElementById('content-wrapper');
+    const eventImage = document.getElementById('event-image');
+    const carModel = document.getElementById('car-model');
+    const carDescription = document.getElementById('car-description');
+    const errorMessage = document.getElementById('error-message');
+    const eraButtonsContainer = document.getElementById('era-buttons');
+    const sliderMinLabel = document.getElementById('slider-min-label');
+    const sliderMaxLabel = document.getElementById('slider-max-label');
+    const sceneSelect = document.getElementById('scene-select');
+    const modStyleSelect = document.getElementById('mod-style-select');
+    const liverySelect = document.getElementById('livery-select');
+    const carTypeSelect = document.getElementById('car-type-select');
+    const cameraAngleSelect = document.getElementById('camera-angle-select');
+    const timeSelect = document.getElementById('time-select');
+    const seasonSelect = document.getElementById('season-select');
+    const carModelInput = document.getElementById('car-model-input');
+    const modernEraButton = document.getElementById('modern-era-button');
+    const currentLangBtn = document.getElementById('current-lang-btn');
+    const currentLangFlag = document.getElementById('current-lang-flag');
+    const languageDropdown = document.getElementById('language-dropdown');
 
-        // --- Translation Data ---
-        const languages = {
-            tr: { name: "Türkçe", flag: "🇹🇷", dir: "ltr" },
-            en: { name: "English", flag: "🇬🇧", dir: "ltr" },
-            pt: { name: "Português", flag: "🇵🇹", dir: "ltr" },
-            es: { name: "Español", flag: "🇪🇸", dir: "ltr" },
-            de: { name: "Deutsch", flag: "🇩🇪", dir: "ltr" },
-            fr: { name: "Français", flag: "🇫🇷", dir: "ltr" },
-            it: { name: "Italiano", flag: "🇮🇹", dir: "ltr" },
-            nl: { name: "Nederlands", flag: "🇳🇱", dir: "ltr" },
-            ar: { name: "العربية", flag: "🇸🇦", dir: "rtl" },
-            hi: { name: "हिन्दी", flag: "🇮🇳", dir: "ltr" },
-            az: { name: "Azərbaycanca", flag: "🇦🇿", dir: "ltr" },
-            ja: { name: "日本語", flag: "🇯🇵", dir: "ltr" },
-            zh: { name: "中文", flag: "🇨🇳", dir: "ltr" },
-            ko: { name: "한국어", flag: "🇰🇷", dir: "ltr" },
-            sv: { name: "Svenska", flag: "🇸🇪", dir: "ltr" },
-        };
+    // --- Translation Data ---
+    const languages = {
+        tr: { name: "Türkçe", flag: "🇹🇷", dir: "ltr" },
+        en: { name: "English", flag: "🇬🇧", dir: "ltr" },
+        pt: { name: "Português", flag: "🇵🇹", dir: "ltr" },
+        es: { name: "Español", flag: "🇪🇸", dir: "ltr" },
+        de: { name: "Deutsch", flag: "🇩🇪", dir: "ltr" },
+        fr: { name: "Français", flag: "🇫🇷", dir: "ltr" },
+        it: { name: "Italiano", flag: "🇮🇹", dir: "ltr" },
+        nl: { name: "Nederlands", flag: "🇳🇱", dir: "ltr" },
+        ar: { name: "العربية", flag: "🇸🇦", dir: "rtl" },
+        hi: { name: "हिन्दी", flag: "🇮🇳", dir: "ltr" },
+        az: { name: "Azərbaycanca", flag: "🇦🇿", dir: "ltr" },
+        ja: { name: "日本語", flag: "🇯🇵", dir: "ltr" },
+        zh: { name: "中文", flag: "🇨🇳", dir: "ltr" },
+        ko: { name: "한국어", flag: "🇰🇷", dir: "ltr" },
+        sv: { name: "Svenska", flag: "🇸🇪", dir: "ltr" },
+    };
 
-        const translations = {
-            mainTitle: { tr: "CarCultureAi Tuning Atölyesi", en: "CarCultureAi Tuning Workshop", pt: "Oficina de Tuning CarCultureAi", ar: "ورشة تعديل CarCultureAi", hi: "कारकल्चरएआई ट्यूनिंग वर्कशॉप", az: "CarCultureAi Tüninq Atelyesi", ja: "CarCultureAi チューニングワークショップ", zh: "CarCultureAi 改装工作室", ko: "CarCultureAi 튜닝 워크샵", es: "Taller de Tuning CarCultureAi", de: "CarCultureAi Tuning-Werkstatt", fr: "Atelier de Tuning CarCultureAi", sv: "CarCultureAi Tuningverkstad", it: "Officina Tuning CarCultureAi", nl: "CarCultureAi Tuning Werkplaats" },
-            eraTitle: { tr: "1. Yıla Göre Rastgele Araç", en: "1. Random Car by Year", pt: "1. Carro Aleatório por Ano", ar: "١. سيارة عشوائية حسب السنة", hi: "१. वर्ष के अनुसार रैंडम कार", az: "1. İlə Görə Təsadüfi Avtomobil", ja: "1. 年代別ランダムカー", zh: "1. 按年份随机选择车辆", ko: "1. 연도별 랜덤 차량", es: "1. Coche Aleatorio por Año", de: "1. Zufälliges Auto nach Jahr", fr: "1. Voiture Aléatoire par Année", sv: "1. Slumpmässig bil efter år", it: "1. Auto Casuale per Anno", nl: "1. Willekeurige Auto op Jaar" },
-            yearTitle: { tr: "Yıl Seçin", en: "Select Year", pt: "Selecione o Ano", ar: "اختر السنة", hi: "वर्ष चुनें", az: "İli seçin", ja: "年を選択", zh: "选择年份", ko: "연도 선택", es: "Seleccionar Año", de: "Jahr auswählen", fr: "Sélectionner l'Année", sv: "Välj år", it: "Seleziona Anno", nl: "Selecteer Jaar" },
-            customTitle: { tr: "Atölye Seçenekleri", en: "Workshop Options", pt: "Opções da Oficina", ar: "خيارات الورشة", hi: "워크샵 विकल्प", az: "Atelye Seçimləri", ja: "ワークショップオプション", zh: "工作室选项", ko: "워크샵 옵션", es: "Opciones del Taller", de: "Werkstattoptionen", fr: "Options de l'Atelier", sv: "Verkstadsalternativ", it: "Opzioni Officina", nl: "Workshop Opties" },
-            modelLabel: { tr: "Araç Modeli ve Rengi (Yılı yukarıdan seçin)", en: "Car Model & Color (Select year above)", pt: "Modelo e Cor do Carro (Selecione o ano acima)", ar: "طراز السيارة ولونها (اختر السنة أعلاه)", hi: "कार मॉडल और रंग (ऊपर वर्ष चुनें)", az: "Avtomobil Modeli və Rəngi (Yuxarıdan ili seçin)", ja: "車種と色（上で年を選択）", zh: "车型和颜色（在上方选择年份）", ko: "차량 모델 및 색상 (위에서 연도 선택)", es: "Modelo y Color del Coche (Seleccionar año arriba)", de: "Automodell & Farbe (Jahr oben auswählen)", fr: "Modèle et Couleur de la Voiture (Sélectionner l'année ci-dessus)", sv: "Bilmodell & Färg (Välj år ovan)", it: "Modello e Colore Auto (Seleziona anno sopra)", nl: "Automodel & Kleur (Selecteer jaar hierboven)" },
-            modelPlaceholder: { tr: "Örn: Ferrari F40 Kırmızı veya sadece Mercedes", en: "e.g., Ferrari F40 Red or just Mercedes", pt: "Ex: Ferrari F40 Vermelho ou apenas Mercedes", ar: "مثال: فيراري F40 أحمر أو فقط مرسيدس", hi: "उदा: फेरारी F40 लाल या सिर्फ मर्सिडीज", az: "Nümunə: Ferrari F40 Qırmızı və ya sadəcə Mercedes", ja: "例: フェラーリ F40 赤 または単にメルセデス", zh: "例如：法拉利 F40 红色 或仅 梅赛德斯", ko: "예: 페라리 F40 레드 또는 그냥 메르세데스", es: "Ej: Ferrari F40 Rojo o solo Mercedes", de: "z.B. Ferrari F40 Rot oder nur Mercedes", fr: "Ex : Ferrari F40 Rouge ou juste Mercedes", sv: "Ex: Ferrari F40 Röd eller bara Mercedes", it: "Es: Ferrari F40 Rossa o solo Mercedes", nl: "Bijv: Ferrari F40 Rood of alleen Mercedes" },
-            modStyleLabel: { tr: "Modifiye Tarzı", en: "Modification Style", pt: "Estilo de Modificação", ar: "أسلوب التعديل", hi: "संशोधन शैली", az: "Modifikasiya Stili", ja: "改造スタイル", zh: "改装风格", ko: "수정 스타일", es: "Estilo de Modificación", de: "Modifikationsstil", fr: "Style de Modification", sv: "Modifieringsstil", it: "Stile di Modifica", nl: "Modificatiestijl" },
-            modStyleStock: { tr: "Stok (Fabrika Çıkışlı)", en: "Stock (Factory)" },
-            modStyleStancenation: { tr: "StanceNation", en: "StanceNation" },
-            modStyleSilhouette: { tr: "Silhouette", en: "Silhouette" },
-            modStyleDrift: { tr: "Drift Tarzı", en: "Drift Style" },
-            modStyleBosozoku: { tr: "Bosozoku", en: "Bosozoku" },
-            modStyleVip: { tr: "VIP / Bippu", en: "VIP / Bippu" },
-            modStyleLbwk: { tr: "Liberty Walk (LBWK)", en: "Liberty Walk (LBWK)" },
-            modStylePandem: { tr: "Rocket Bunny / Pandem", en: "Rocket Bunny / Pandem" },
-            modStyleRwb: { tr: "RWB", en: "RWB" },
-            modStyleRally: { tr: "Ralli", en: "Rally" },
-            modStyleDtm: { tr: "DTM", en: "DTM" },
-            modStyleMadmax: { tr: "Mad Max", en: "Mad Max" },
-            liveryLabel: { tr: "Kaplama / Dekal", en: "Livery / Decal", pt: "Pintura / Decalque", ar: "الكسوة / الشارات", hi: "लिवरी / डेकल", az: "Livrey / Dekal", ja: "リバリー / デカール", zh: "涂装 / 贴花", ko: "리버리 / 데칼", es: "Diseño / Calcomanía", de: "Lackierung / Aufkleber", fr: "Livrée / Décalcomanie", sv: "Lackering / Dekal", it: "Livrea / Decalcomania", nl: "Bestickering / Decal" },
-            liveryNone: { tr: "Dekalsız (Sade Boya)", en: "No Decals (Plain Paint)"},
-            liveryFalken: { tr: "Falken", en: "Falken" },
-            liveryMonster: { tr: "Monster Energy", en: "Monster Energy" },
-            liveryMartini: { tr: "Martini Racing", en: "Martini Racing" },
-            liveryGulf: { tr: "Gulf Oil", en: "Gulf Oil" },
-            liveryJagermeister: { tr: "Jägermeister DTM", en: "Jägermeister DTM" },
-            liveryCastrol: { tr: "Castrol TOM's Supra", en: "Castrol TOM's Supra" },
-            carTypeLabel: { tr: "Araç Tipi", en: "Car Type" },
-            carTypeDefault: { tr: "Standart", en: "Default" }, carTypeSedan: { tr: "Sedan", en: "Sedan" }, carTypeSuv: { tr: "SUV", en: "SUV" }, carTypeHatchback: { tr: "Hatchback", en: "Hatchback" }, carTypeStationWagon: { tr: "Station Wagon", en: "Station Wagon" }, carTypeMinivan: { tr: "Minivan", en: "Minivan" }, carTypePickup: { tr: "Pickup", en: "Pickup" }, carTypeCabrio: { tr: "Cabrio", en: "Convertible" },
-            cameraAngleLabel: { tr: "Kamera Açısı", en: "Camera Angle", pt: "Ângulo da Câmera", ar: "زاوية الكاميرا", hi: "कैमरा एंगल", az: "Kamera Bucağı", ja: "カメラアングル", zh: "相机角度", ko: "카메라 각도", es: "Ángulo de Cámara", de: "Kamerawinkel", fr: "Angle de Caméra", sv: "Kameravinkel", it: "Angolazione della Telecamera", nl: "Camerahoek" },
-            cameraAngleFront34: { tr: "Ön Çapraz", en: "Front 3/4" }, cameraAngleRear34: { tr: "Arka Çapraz", en: "Rear 3/4" }, cameraAngleSide: { tr: "Yan Profil", en: "Side Profile" }, cameraAngleLowFront: { tr: "Ön Düşük Açı", en: "Low Angle Front" }, cameraAngleLowRear: { tr: "Arka Düşük Açı", en: "Low Angle Rear" }, cameraAngleHighFront: { tr: "Ön Yüksek Açı", en: "High Angle Front" }, cameraAngleHighRear: { tr: "Arka Yüksek Açı", en: "High Angle Rear" }, cameraAngleRolling: { tr: "Takip Çekimi", en: "Rolling Shot" },
-            sceneLabel: { tr: "Sahne", en: "Scene", pt: "Cenário", ar: "المشهد", hi: "दृश्य", az: "Səhnə", ja: "シーン", zh: "场景", ko: "장면", es: "Escena", de: "Szene", fr: "Scène", sv: "Scen", it: "Scena", nl: "Scène" },
-            sceneOptionStudio: { tr: "Beyaz Stüdyo", en: "White Studio" }, sceneOptionMeet: { tr: "Araba Buluşması", en: "Car Meet" }, sceneOptionBasketball: { tr: "Basketbol Sahası", en: "Basketball Court" },
-            timeLabel: { tr: "Zaman Dilimi", en: "Time of Day", pt: "Período do Dia", ar: "وقت اليوم", hi: "दिन का समय", az: "Günün Vaxtı", ja: "時間帯", zh: "一天中的时间", ko: "시간대", es: "Momento del Día", de: "Tageszeit", fr: "Moment de la Journée", sv: "Tid på dygnet", it: "Momento della Giornata", nl: "Tijd van de Dag" },
-            timeOptionMorning: { tr: "Sabah", en: "Morning" }, timeOptionNoon: { tr: "Öğle", en: "Noon" }, timeOptionSunset: { tr: "Gün Batımı", en: "Sunset" }, timeOptionNight: { tr: "Gece", en: "Night" },
-            seasonLabel: { tr: "Mevsim", en: "Season", pt: "Estação", ar: "الموسم", hi: "मौसम", az: "Mövsüm", ja: "季節", zh: "季节", ko: "계절", es: "Estación", de: "Jahreszeit", fr: "Saison", sv: "Årstid", it: "Stagione", nl: "Seizoen" },
-            seasonOptionSpring: { tr: "İlkbahar", en: "Spring" }, seasonOptionSummer: { tr: "Yaz", en: "Summer" }, seasonOptionAutumn: { tr: "Sonbahar", en: "Autumn" }, seasonOptionWinter: { tr: "Kış", en: "Winter" },
-            generateButton: { tr: "Arabayı Üret", en: "Generate Car" },
-            descYear: { tr: "Üretim Yılı", en: "Production Year" },
-            descCustom: { tr: "Özel Konsept", en: "Custom Concept" },
-            errorGeneral: { tr: "Araba üretilirken bir hata oluştu.", en: "An error occurred while generating the car." },
-            errorImage: { tr: "Görsel yüklenirken bir hata oluştu.", en: "An error occurred while loading the image." },
-            errorGemini: { tr: "Gemini'den geçerli bir metin alınamadı.", en: "Could not get a valid text from Gemini." },
-            errorImagen: { tr: "Görsel üretilemedi. İsteğiniz güvenlik politikalarını ihlal ediyor olabilir.", en: "Image could not be generated. Your request may violate security policies." },
-            errorParse: { tr: "Model ve renk anlaşılamadı. Lütfen 'Model Renk' formatında tekrar deneyin.", en: "Could not understand model and color. Please try again in 'Model Color' format." }
-        };
+    const translations = {
+        mainTitle: { tr: "CarCultureAi Tuning Atölyesi", en: "CarCultureAi Tuning Workshop" },
+        eraTitle: { tr: "1. Yıla Göre Rastgele Araç", en: "1. Random Car by Year" },
+        yearTitle: { tr: "Yıl Seçin", en: "Select Year" },
+        customTitle: { tr: "Atölye Seçenekleri", en: "Workshop Options" },
+        modelLabel: { tr: "Araç Modeli ve Rengi (Yılı yukarıdan seçin)", en: "Car Model & Color (Select year above)" },
+        modelPlaceholder: { tr: "Örn: Ferrari F40 Kırmızı veya sadece Mercedes", en: "e.g., Ferrari F40 Red or just Mercedes" },
+        modStyleLabel: { tr: "Modifiye Tarzı", en: "Modification Style" },
+        modStyleStock: { tr: "Stok (Fabrika Çıkışlı)", en: "Stock (Factory)" },
+        modStyleStancenation: { tr: "StanceNation", en: "StanceNation" },
+        modStyleSilhouette: { tr: "Silhouette", en: "Silhouette" },
+        modStyleDrift: { tr: "Drift Tarzı", en: "Drift Style" },
+        modStyleBosozoku: { tr: "Bosozoku", en: "Bosozoku" },
+        modStyleVip: { tr: "VIP / Bippu", en: "VIP / Bippu" },
+        modStyleLbwk: { tr: "Liberty Walk (LBWK)", en: "Liberty Walk (LBWK)" },
+        modStylePandem: { tr: "Rocket Bunny / Pandem", en: "Rocket Bunny / Pandem" },
+        modStyleRwb: { tr: "RWB", en: "RWB" },
+        modStyleRally: { tr: "Ralli", en: "Rally" },
+        modStyleDtm: { tr: "DTM", en: "DTM" },
+        modStyleMadmax: { tr: "Mad Max", en: "Mad Max" },
+        liveryLabel: { tr: "Kaplama / Dekal", en: "Livery / Decal" },
+        liveryNone: { tr: "Dekalsız (Sade Boya)", en: "No Decals (Plain Paint)"},
+        liveryFalken: { tr: "Falken", en: "Falken" },
+        liveryMonster: { tr: "Monster Energy", en: "Monster Energy" },
+        liveryMartini: { tr: "Martini Racing", en: "Martini Racing" },
+        liveryGulf: { tr: "Gulf Oil", en: "Gulf Oil" },
+        liveryJagermeister: { tr: "Jägermeister DTM", en: "Jägermeister DTM" },
+        liveryCastrol: { tr: "Castrol TOM's Supra", en: "Castrol TOM's Supra" },
+        carTypeLabel: { tr: "Araç Tipi", en: "Car Type" },
+        carTypeDefault: { tr: "Standart", en: "Default" },
+        carTypeSedan: { tr: "Sedan", en: "Sedan" },
+        carTypeSuv: { tr: "SUV", en: "SUV" },
+        carTypeHatchback: { tr: "Hatchback", en: "Hatchback" },
+        carTypeStationWagon: { tr: "Station Wagon", en: "Station Wagon" },
+        carTypeMinivan: { tr: "Minivan", en: "Minivan" },
+        carTypePickup: { tr: "Pickup", en: "Pickup" },
+        carTypeCabrio: { tr: "Cabrio", en: "Convertible" },
+        cameraAngleLabel: { tr: "Kamera Açısı", en: "Camera Angle" },
+        cameraAngleFront34: { tr: "Ön Çapraz", en: "Front 3/4" },
+        cameraAngleRear34: { tr: "Arka Çapraz", en: "Rear 3/4" },
+        cameraAngleSide: { tr: "Yan Profil", en: "Side Profile" },
+        cameraAngleLowFront: { tr: "Ön Düşük Açı", en: "Low Angle Front" },
+        cameraAngleLowRear: { tr: "Arka Düşük Açı", en: "Low Angle Rear" },
+        cameraAngleHighFront: { tr: "Ön Yüksek Açı", en: "High Angle Front" },
+        cameraAngleHighRear: { tr: "Arka Yüksek Açı", en: "High Angle Rear" },
+        cameraAngleRolling: { tr: "Takip Çekimi", en: "Rolling Shot" },
+        sceneLabel: { tr: "Sahne", en: "Scene" },
+        sceneOptionStudio: { tr: "Beyaz Stüdyo", en: "White Studio" },
+        sceneOptionMeet: { tr: "Araba Buluşması", en: "Car Meet" },
+        sceneOptionBasketball: { tr: "Basketbol Sahası", en: "Basketball Court" },
+        timeLabel: { tr: "Zaman Dilimi", en: "Time of Day" },
+        timeOptionMorning: { tr: "Sabah", en: "Morning" },
+        timeOptionNoon: { tr: "Öğle", en: "Noon" },
+        timeOptionSunset: { tr: "Gün Batımı", en: "Sunset" },
+        timeOptionNight: { tr: "Gece", en: "Night" },
+        seasonLabel: { tr: "Mevsim", en: "Season" },
+        seasonOptionSpring: { tr: "İlkbahar", en: "Spring" },
+        seasonOptionSummer: { tr: "Yaz", en: "Summer" },
+        seasonOptionAutumn: { tr: "Sonbahar", en: "Autumn" },
+        seasonOptionWinter: { tr: "Kış", en: "Winter" },
+        generateButton: { tr: "Arabayı Üret", en: "Generate Car" },
+        descYear: { tr: "Üretim Yılı", en: "Production Year" },
+        descCustom: { tr: "Özel Konsept", en: "Custom Concept" },
+        errorGeneral: { tr: "Bir hata oluştu.", en: "An error occurred." },
+        errorImage: { tr: "Görsel yüklenemedi.", en: "Could not load the image." },
+        errorGemini: { tr: "Geçerli metin alınamadı.", en: "Could not get a valid text." },
+        errorImagen: { tr: "Görsel üretilemedi.", en: "Image could not be generated." },
+        errorParse: { tr: "Model anlaşılamadı.", en: "Could not understand model." }
+    };
+    
+    // --- State Variables ---
+    let currentLanguage = 'tr';
+    const currentRealYear = new Date().getFullYear();
+    const eras = {
+        antika: { min: 1920, max: 1949, step: 1, default: 1932 },
+        klasik: { min: 1950, max: 1979, step: 1, default: 1969 },
+        retro: { min: 1980, max: 1999, step: 1, default: 1998 },
+        modern: { min: 2000, max: currentRealYear, step: 1, default: currentRealYear }
+    };
 
-        // --- State Variables ---
-        let currentLanguage = 'tr';
-        const currentRealYear = new Date().getFullYear();
-        const eras = {
-            antika:  { min: 1920, max: 1949, step: 1, default: 1932 },
-            klasik:  { min: 1950, max: 1979, step: 1, default: 1969 },
-            retro:   { min: 1980, max: 1999, step: 1, default: 1998 },
-            modern:  { min: 2000, max: currentRealYear, step: 1, default: currentRealYear }
-        };
+    // --- UI Functions ---
+    const updateConditionalInputs = () => {
+        const isStudio = sceneSelect.value === 'beyaz_studyo';
+        timeSelect.disabled = isStudio;
+        seasonSelect.disabled = isStudio;
+    };
 
-        // --- UI Functions ---
-        const updateConditionalInputs = () => {
-            const isStudio = sceneSelect.value === 'beyaz_studyo';
-            timeSelect.disabled = isStudio;
-            seasonSelect.disabled = isStudio;
-        };
+    const setLanguage = (lang) => {
+        if (!languages[lang]) return;
+        currentLanguage = lang;
+        const langData = languages[lang];
+        document.documentElement.lang = lang;
+        document.documentElement.dir = langData.dir;
+        currentLangFlag.textContent = langData.flag;
+        languageDropdown.classList.add('hidden');
+        Object.keys(translations).forEach(key => {
+            const elements = document.querySelectorAll(`[data-translate="${key}"], [data-translate-placeholder="${key}"]`);
+            elements.forEach(el => {
+                const translation = translations[key][lang] || translations[key]['en'];
+                if (el.hasAttribute('data-translate-placeholder')) {
+                    el.placeholder = translation;
+                } else if (el.hasAttribute('data-translate')) {
+                    el.textContent = translation;
+                }
+            });
+        });
+    };
 
-        const setLanguage = (lang) => {
-            if (!languages[lang]) return;
-            currentLanguage = lang;
-            const langData = languages[lang];
-            
-            document.documentElement.lang = lang;
-            document.documentElement.dir = langData.dir;
-            
-            currentLangFlag.textContent = langData.flag;
+    const populateLanguageDropdown = () => {
+        languageDropdown.innerHTML = '';
+        for (const [code, lang] of Object.entries(languages)) {
+            const button = document.createElement('button');
+            button.className = 'w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center space-x-2';
+            button.onclick = () => setLanguage(code);
+            button.innerHTML = `<span>${lang.flag}</span><span>${lang.name}</span>`;
+            languageDropdown.appendChild(button);
+        }
+    };
+
+    const setEra = (eraName) => {
+        const era = eras[eraName];
+        yearSlider.min = era.min;
+        yearSlider.max = era.max;
+        yearSlider.step = era.step;
+        yearSlider.value = era.default;
+        sliderMinLabel.textContent = era.min.toString();
+        sliderMaxLabel.textContent = era.max.toString();
+        yearDisplay.textContent = era.default.toString();
+        document.querySelectorAll('.era-button').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.era === eraName);
+        });
+    };
+
+    // --- Event Listeners ---
+    yearSlider.addEventListener('input', () => { yearDisplay.textContent = parseInt(yearSlider.value).toString(); });
+    eraButtonsContainer.addEventListener('click', (e) => { if (e.target.tagName === 'BUTTON') setEra(e.target.dataset.era); });
+    sceneSelect.addEventListener('change', updateConditionalInputs);
+    generateButton.addEventListener('click', handleMainGeneration);
+    currentLangBtn.addEventListener('click', () => { languageDropdown.classList.toggle('hidden'); });
+    document.addEventListener('click', (e) => {
+        if (!currentLangBtn.contains(e.target) && !languageDropdown.contains(e.target)) {
             languageDropdown.classList.add('hidden');
-            
-            Object.keys(translations).forEach(key => {
-                const elements = document.querySelectorAll(`[data-translate="${key}"], [data-translate-placeholder="${key}"]`);
-                elements.forEach(el => {
-                    const translation = translations[key][lang] || translations[key]['en']; // Fallback to English
-                    if(el.hasAttribute('data-translate-placeholder')) {
-                        el.placeholder = translation;
-                    } else if(el.hasAttribute('data-translate')) {
-                        el.textContent = translation;
-                    }
-                });
-            });
-        };
-        
-        const populateLanguageDropdown = () => {
-            languageDropdown.innerHTML = '';
-            for (const [code, lang] of Object.entries(languages)) {
-                const button = document.createElement('button');
-                button.className = 'w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center space-x-2';
-                button.onclick = () => setLanguage(code);
-                button.innerHTML = `<span>${lang.flag}</span><span>${lang.name}</span>`;
-                languageDropdown.appendChild(button);
-            }
-        };
+        }
+    });
 
-        const setEra = (eraName) => {
-            const era = eras[eraName];
-            yearSlider.min = era.min;
-            yearSlider.max = era.max;
-            yearSlider.step = era.step;
-            yearSlider.value = era.default;
-            sliderMinLabel.textContent = era.min.toString();
-            sliderMaxLabel.textContent = era.max.toString();
-            yearDisplay.textContent = era.default.toString();
-            document.querySelectorAll('.era-button').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.era === eraName);
-            });
-        };
-
-        // --- Event Listeners ---
-        yearSlider.addEventListener('input', () => { yearDisplay.textContent = parseInt(yearSlider.value).toString(); });
-        eraButtonsContainer.addEventListener('click', (e) => { if (e.target.tagName === 'BUTTON') setEra(e.target.dataset.era); });
-        sceneSelect.addEventListener('change', updateConditionalInputs);
-        generateButton.addEventListener('click', handleMainGeneration);
-        currentLangBtn.addEventListener('click', () => {
-            languageDropdown.classList.toggle('hidden');
-        });
-        document.addEventListener('click', (e) => {
-             if (!currentLangBtn.contains(e.target) && !languageDropdown.contains(e.target)) {
-                 languageDropdown.classList.add('hidden');
-             }
-        });
-        
-        // --- Main Generation Logic ---
-        async function handleMainGeneration() {
-            try {
-                const userInput = carModelInput.value.trim();
-                const selectedYear = parseInt(yearSlider.value);
-                const selectedModStyle = modStyleSelect.value;
-                const selectedCarType = carTypeSelect.value;
-                const selectedCameraAngle = cameraAngleSelect.value;
-                const selectedScene = sceneSelect.value;
-                const selectedTime = timeSelect.value;
-                const selectedSeason = seasonSelect.value;
-                const selectedLivery = liverySelect.value;
-                
-                showMainLoader(true);
-                resetUI();
-            
-                let carNameText, selectedColor, descriptionText;
-
-                if (userInput) {
-                    const parsed = await callGeminiForParsing(userInput, selectedYear);
-                    let finalModel = parsed.model;
-                    if (!/\d{4}/.test(finalModel)) {
-                        finalModel = `${selectedYear} ${finalModel}`;
-                    }
-                    carNameText = finalModel;
-                    selectedColor = parsed.color;
-                    descriptionText = translations.descCustom[currentLanguage];
-                } else {
-                    carNameText = await callGeminiForCar(selectedYear);
-                    descriptionText = `${translations.descYear[currentLanguage]}: ${selectedYear}`;
+    // --- Main Generation Logic ---
+    async function handleMainGeneration() {
+        try {
+            const userInput = carModelInput.value.trim();
+            const selectedYear = parseInt(yearSlider.value);
+            const selectedModStyle = modStyleSelect.value;
+            const selectedCarType = carTypeSelect.value;
+            const selectedCameraAngle = cameraAngleSelect.value;
+            const selectedScene = sceneSelect.value;
+            const selectedTime = timeSelect.value;
+            const selectedSeason = seasonSelect.value;
+            const selectedLivery = liverySelect.value;
+            showMainLoader(true);
+            resetUI();
+            let carNameText, selectedColor, descriptionText;
+            if (userInput) {
+                const parsed = await callGeminiForParsing(userInput, selectedYear);
+                let finalModel = parsed.model;
+                if (!/\d{4}/.test(finalModel)) {
+                    finalModel = `${selectedYear} ${finalModel}`;
                 }
-
-                if (!selectedColor) {
-                    selectedColor = await callGeminiForColor();
-                }
-
-                const imageUrl = await callImagen(carNameText, selectedModStyle, selectedCarType, selectedCameraAngle, selectedScene, selectedTime, selectedSeason, selectedColor, selectedLivery);
-                updateUIWithResults(carNameText, descriptionText, imageUrl);
-
-            } catch (error) {
-                handleError(error, error.message || translations.errorGeneral[currentLanguage]);
-            } finally {
-                showMainLoader(false);
-            }
-        }
-
-        // --- API Call Functions ---
-        // GÜVENLİK UYARISI: Bu anahtarlar paylaşıldığı için artık güvenli değildir.
-        // Lütfen bu kodu kopyaladıktan sonra Google Cloud'dan bu anahtarları silip yenilerini oluşturun.
-        const GEMINI_API_KEY = "AIzaSyAb6LNp7M_m5ug7cH2iGDFDhwqHRe3qfaU";
-        const IMAGEN_API_KEY = "AIzaSyDr55wlKLGVH_v9hvesZW4cjmbec0H_vIw"; 
-        
-        // ÖNEMLİ: Kendi Google Cloud Proje ID'nizi buraya yazmalısınız.
-        const PROJECT_ID = "gen-lang-client-0435045343";
-
-        async function callGemini(prompt, isJson = false) {
-            if (!GEMINI_API_KEY || GEMINI_API_KEY.includes("BURAYA")) {
-                throw new Error("Gemini API anahtarı eksik. Lütfen koddaki ilgili alanı doldurun.");
-            }
-            
-            const payload = { 
-                contents: [{ role: "user", parts: [{ text: prompt }] }] 
-            };
-            if (isJson) {
-                payload.generationConfig = {
-                    responseMimeType: "application/json"
-                };
-            }
-            
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
-            
-            const response = await fetch(apiUrl, { 
-                method: 'POST', 
-                headers: { 'Content-Type': 'application/json' }, 
-                body: JSON.stringify(payload) 
-            });
-
-            if (!response.ok) {
-                const errorBody = await response.text();
-                console.error("Gemini API Error Body:", errorBody);
-                throw new Error(`Gemini API Hatası: ${response.statusText}`);
-            }
-            
-            const result = await response.json();
-            
-            if (result.candidates && result.candidates[0]?.content?.parts[0]?.text) {
-                return result.candidates[0].content.parts[0].text.trim();
-            }
-            
-            console.error("Gemini API - No content in response:", result);
-            throw new Error(translations.errorGemini[currentLanguage]);
-        }
-        
-        function callGeminiForCar(year) {
-            const prompt = `Lütfen ${year} yılından ikonik, popüler veya yaygın olarak bilinen bir binek araba modeli adı ver. Sürekli aynı ünlü spor arabaları tekrarlamaktan kaçın. Daha fazla çeşitlilik göster (örneğin normal sedanlar, aile arabaları da olabilir). Cevabın sadece arabanın tam adı olsun (Örnek: 1985 Volkswagen Golf, 1992 Ford Taurus, 1969 Chevrolet Camaro). Başka hiçbir açıklama ekleme.`;
-            return callGemini(prompt);
-        }
-
-        async function callGeminiForParsing(userInput, year) {
-            const prompt = `Kullanıcının şu girdisini analiz et: "${userInput}". Eğer girdi sadece bir marka adıysa (örn: "Mercedes"), o markanın ${year} yılına ait ikonik bir modelini bul (örn: "Mercedes-Benz 190E"). Eğer girdi tam bir model adı içeriyorsa (örn: "Ferrari F40 Kırmızı"), o modeli kullan. Ayrıca girdideki rengi de çıkar. Sadece JSON formatında cevap ver: {"model": "...", "color": "..."}. Başka hiçbir metin veya markdown formatı ekleme.`;
-            const jsonString = await callGemini(prompt, true);
-            try {
-                return JSON.parse(jsonString);
-            } catch (e) {
-                console.error("Failed to parse JSON from Gemini:", jsonString, e);
-                throw new Error(translations.errorParse[currentLanguage]);
-            }
-        }
-
-        function callGeminiForColor() {
-            const prompt = `Suggest a single, exciting, and creative car color name. For example: 'Inferno Orange', 'Cosmic Blue', 'Stealth Black'. Only return the color name itself, with no extra text.`;
-            return callGemini(prompt);
-        }
-
-        async function callImagen(carName, modStyle, carType, cameraAngle, scene, time, season, color, livery) {
-            if (!IMAGEN_API_KEY || IMAGEN_API_KEY.includes("BURAYA")) {
-                throw new Error("Imagen API anahtarı eksik.");
-            }
-             if (!PROJECT_ID || PROJECT_ID.includes("BURAYA")) {
-                throw new Error("Google Cloud Proje ID eksik.");
-            }
-            
-            // --- MASTER PROMPT SYSTEM v13.2 (Final Logic Fix) ---
-            const promptParts = {
-                camera: { front_3_4: 'A dynamic low-angle three-quarter front view shot of a', rear_3_4: 'A dynamic low-angle three-quarter rear view shot of a', side_profile: 'A clean, full side profile shot of a', low_front: 'An extreme low-angle three-quarter front view shot of a', low_rear: 'An extreme low-angle three-quarter rear view shot of a', high_front: 'A high-angle three-quarter front view shot looking down on a', high_rear: 'A high-angle three-quarter rear view shot looking down on a', rolling_shot: 'A dynamic rolling shot, capturing the motion of a' },
-                carType: { default: '', sedan: 'reimagined as a 4-door sedan,', suv: 'reimagined as a sporty SUV,', hatchback: 'reimagined as an aggressive 3-door hot-hatch,', station_wagon: "reimagined as a sleek 'Shooting Brake' with an extended roofline,", minivan: 'reimagined as a heavily modified JDM-style minivan,', pickup: 'completely converted into a custom sport pickup truck, with the rear passenger area replaced by a functional truck bed,', cabrio: 'reimagined as a 2-door convertible with the top down,' },
-                modStyle: { stock: 'in perfect, factory-stock condition. All parts are original, with a showroom finish, and no aftermarket modifications.', stancenation: `modified for the 'StanceNation' aesthetic, with an impossibly extreme negative camber ('oni-kyan' style). The car is slammed on air suspension to the point where the body rests on the ground. The fitment is the main focus.`, silhouette: `radically transformed into a Group 5 'silhouette' formula race car. The body is an unrecognizable, extremely wide, boxy shape with massive aerodynamic elements, a huge front spoiler, and a gigantic rear wing.`, drift: `reimagined as a professional drift competition car. It has a high-angle steering kit, a massive GT wing for downforce, and vented fenders.`, bosozoku: `radically transformed with an exaggerated 'Bosozoku' aesthetic. It features a massive, extended front spoiler ('deppa'), extremely long, upward-facing exhaust pipes ('takeyari'), and boxy fender flares.`, vip: `modified in the Japanese 'VIP' or 'Bippu' style. The focus is on clean luxury and an imposing stance. It's slammed on air suspension, features large, multi-piece, highly polished deep-dish wheels, and a subtle, clean body kit.`, lbwk: `modified with an extremely aggressive, authentic Liberty Walk (LBWK) wide-body aesthetic. It features signature LBWK massively oversized, bolted-on super-wide fender flares, an aggressive front splitter, deep side skirts, and a large GT wing.`, pandem: `modified with an authentic Pandem/Rocket Bunny wide-body aesthetic, known for its raw, race-inspired look. It features signature bolted-on super-wide fender flares with exposed hardware, a deep front lip spoiler, and a distinctive "swan neck" GT wing.`, rwb: `reimagined with the iconic RAUH-Welt BEGRIFF (RWB) aesthetic. It has extremely wide, riveted fender flares, a massive "champion" GT wing, and deep-dish Work Meister wheels.`, rally: `converted into a full-spec rally car. It features a lifted suspension, gravel tires, a prominent roof scoop, and a hood-mounted light pod.`, dtm: `converted with the aesthetic of a modern DTM touring car. It has an extremely boxy and aggressive wide-body kit, a massive front air dam, and a large adjustable rear wing.`, madmax: `converted for a post-apocalyptic world. The car is covered in scrap metal armor, rusty panels, and spikes. It has a massive supercharger sticking out of the hood, barred windows, and mismatched, rugged wheels.` },
-                livery: { none: ``, falken: `The car's body is covered in the iconic Falken Tire livery, with its signature teal and blue scallops and logos.`, monster: `The car is wrapped in a matte black Monster Energy livery, featuring the massive green claw mark logo prominently.`, martini: `The car is adorned with the classic Martini Racing livery, featuring the dark blue, light blue, and red stripes over a white or silver body.`, gulf: `The car is painted in the legendary Gulf Oil livery, with its powder blue body and a central orange stripe.`, jagermeister: `The car is covered in the iconic bright orange Jägermeister DTM livery with its stag logo.`, castrol: `The car features the unforgettable green and red Castrol TOM's Supra livery.` },
-                scene: { beyaz_studyo: `showcased in a vibrant, sterile white studio with a clean, seamless backdrop. The scene is illuminated by professional, mixed studio lighting.`, car_meet: `showcased at a vibrant car meet. The car is parked under mixed lighting, surrounded by the blurred motion of enthusiasts and other modified cars.`, basketball_court: `parked near a chain-link fence bordering a brightly lit urban basketball court. The shot is captured on classic photographic film, introducing realistic imperfections like subtle lens flares and film grain.` },
-                time: { morning: 'The lighting is the soft, golden light of early morning.', noon: 'The scene is lit by the bright, direct light of midday.', sunset: 'The scene is bathed in the warm, orange glow of a sunset.', night: 'The scene is at night, with dramatic, moody lighting.' },
-                season: { spring: 'The environment shows hints of spring, like fresh greenery.', summer: 'The atmosphere is that of a clear, bright summer day.', autumn: 'The ground is covered with colorful fallen autumn leaves.', winter: 'The scene is in winter, with a visible layer of snow on the ground and a cold atmosphere.' },
-                common: `The car has an exceptionally slammed stance (unless rally or offroad mod style is selected). It sits on ultra-wide, deep-dish aftermarket wheels with stretched tires and exaggerated negative camber. The windows are tinted dark. Painted in a striking ${color}. The final image must be an energetic, cinematic, and bold, ultra-detailed photorealistic 4K resolution shot.`
-            };
-
-            let carBodyDescription = (carType === 'default' || modStyle === 'stock') ? '' : promptParts.carType[carType];
-            let finalImagePrompt = `${promptParts.camera[cameraAngle]} ${carName}, ${carBodyDescription} ${promptParts.modStyle[modStyle]} ${promptParts.livery[livery]} The car is ${promptParts.scene[scene]}`;
-            
-            if (scene !== 'beyaz_studyo') {
-                finalImagePrompt += ` ${promptParts.season[season]} ${promptParts.time[time]}`;
-            }
-
-            finalImagePrompt += ` ${promptParts.common}`;
-            
-            const payload = { 
-                instances: [{ 
-                    prompt: finalImagePrompt 
-                }], 
-                parameters: { 
-                    sampleCount: 1 
-                } 
-            };
-
-            const LOCATION = "us-central1"; 
-            const API_ENDPOINT = `${LOCATION}-aiplatform.googleapis.com`;
-            const MODEL_ID = "imagegeneration@006";
-            
-            const apiUrl = `https://${API_ENDPOINT}/v1/projects/${PROJECT_ID}/locations/${LOCATION}/publishers/google/models/${MODEL_ID}:predict`;
-
-            // Bu API çağrısı, doğrudan tarayıcıdan çalışmaz. Tarayıcılar, güvenlik nedeniyle
-            // API anahtarını Authorization başlığında göndermez. Bu kodun çalışması için
-            // anahtarın URL'ye eklenmesi veya bu isteği yapacak bir sunucuya (backend) ihtiyaç vardır.
-            // Önceki Gemini API çağrısı gibi `?key=` parametresiyle çalışan bir endpoint kullanıyoruz.
-            const authenticatedApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${IMAGEN_API_KEY}`;
-            
-            const response = await fetch(authenticatedApiUrl, { 
-                method: 'POST', 
-                headers: { 'Content-Type': 'application/json' }, 
-                body: JSON.stringify(payload)
-            });
-            
-            const result = await response.json();
-
-            if (!response.ok) {
-                console.error("Imagen API Error Response:", result);
-                throw new Error(result?.error?.message || `Imagen API Hatası: ${response.statusText}`);
-            }
-
-            if (result.predictions && result.predictions[0]?.bytesBase64Encoded) {
-                return `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
+                carNameText = finalModel;
+                selectedColor = parsed.color;
+                descriptionText = translations.descCustom[currentLanguage];
             } else {
-                console.warn("Imagen API'den görsel alınamadı.", result);
-                throw new Error(translations.errorImagen[currentLanguage]);
+                carNameText = await callGeminiForCar(selectedYear);
+                descriptionText = `${translations.descYear[currentLanguage]}: ${selectedYear}`;
             }
-        }
-        
-        // --- UI Update and Helper Functions ---
-        function resetUI() {
-            resultCard.classList.remove('hidden');
-            contentWrapper.classList.add('hidden');
-            errorMessage.classList.add('hidden');
-        }
-
-        function showMainLoader(show) {
-            loadingIndicator.classList.toggle('hidden', !show);
-            generateButton.disabled = show;
-        }
-
-        function updateUIWithResults(modelText, descriptionText, imageUrl) {
-            carModel.textContent = modelText;
-            carDescription.textContent = descriptionText;
-            eventImage.src = imageUrl;
-            eventImage.onload = () => {
-                contentWrapper.classList.remove('hidden');
-            };
-            eventImage.onerror = () => handleError(new Error(translations.errorImage[currentLanguage]), translations.errorImage[currentLanguage]);
-        }
-        
-        function handleError(error, message) {
-            console.error(message, error);
-            contentWrapper.classList.add('hidden');
+            if (!selectedColor) {
+                selectedColor = await callGeminiForColor();
+            }
+            const imageUrl = await callImagen(carNameText, selectedModStyle, selectedCarType, selectedCameraAngle, selectedScene, selectedTime, selectedSeason, selectedColor, selectedLivery);
+            updateUIWithResults(carNameText, descriptionText, imageUrl);
+        } catch (error) {
+            handleError(error, error.message || translations.errorGeneral[currentLanguage]);
+        } finally {
             showMainLoader(false);
-            errorMessage.textContent = error.message || `${message} Lütfen tekrar deneyin.`;
-            errorMessage.classList.remove('hidden');
         }
+    }
 
-        // --- Initialize ---
-        window.onload = () => {
-            try {
-                modernEraButton.textContent = `(2000-${currentRealYear})`;
-                setEra('modern');
-                populateLanguageDropdown();
-                setLanguage('tr');
-                updateConditionalInputs();
-            } catch(e) {
-                console.error("Kritik başlatma hatası:", e);
-                document.body.innerHTML = `<div class="text-red-500 text-center p-8">Uygulama başlatılırken kritik bir hata oluştu. Lütfen konsolu kontrol edin.</div>`;
-            }
+    // --- API Call Functions ---
+    const GEMINI_API_KEY = "AIzaSyAb6LNp7M_m5ug7cH2iGDFDhwqHRe3qfaU";
+    const HUGGING_FACE_TOKEN = "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";
+
+    async function callGemini(prompt, isJson = false) {
+        if (!GEMINI_API_KEY) { throw new Error("Gemini API anahtarı eksik."); }
+        const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
+        if (isJson) { payload.generationConfig = { responseMimeType: "application/json" }; }
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
+        const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+        if (!response.ok) {
+            const errorBody = await response.text();
+            console.error("Gemini API Error Body:", errorBody);
+            throw new Error(`Gemini API Hatası: ${response.statusText}`);
+        }
+        const result = await response.json();
+        if (result.candidates && result.candidates[0]?.content?.parts[0]?.text) {
+            return result.candidates[0].content.parts[0].text.trim();
+        }
+        console.error("Gemini API - No content in response:", result);
+        throw new Error(translations.errorGemini[currentLanguage]);
+    }
+
+    function callGeminiForCar(year) {
+        const prompt = `Lütfen ${year} yılından ikonik, popüler veya yaygın olarak bilinen bir binek araba modeli adı ver. Sürekli aynı ünlü spor arabaları tekrarlamaktan kaçın. Daha fazla çeşitlilik göster (örneğin normal sedanlar, aile arabaları da olabilir). Cevabın sadece arabanın tam adı olsun (Örnek: 1985 Volkswagen Golf, 1992 Ford Taurus, 1969 Chevrolet Camaro). Başka hiçbir açıklama ekleme.`;
+        return callGemini(prompt);
+    }
+
+    async function callGeminiForParsing(userInput, year) {
+        const prompt = `Kullanıcının şu girdisini analiz et: "${userInput}". Eğer girdi sadece bir marka adıysa (örn: "Mercedes"), o markanın ${year} yılına ait ikonik bir modelini bul (örn: "Mercedes-Benz 190E"). Eğer girdi tam bir model adı içeriyorsa (örn: "Ferrari F40 Kırmızı"), o modeli kullan. Ayrıca girdideki rengi de çıkar. Sadece JSON formatında cevap ver: {"model": "...", "color": "..."}. Başka hiçbir metin veya markdown formatı ekleme.`;
+        const jsonString = await callGemini(prompt, true);
+        try { return JSON.parse(jsonString); } catch (e) {
+            console.error("Failed to parse JSON from Gemini:", jsonString, e);
+            throw new Error(translations.errorParse[currentLanguage]);
+        }
+    }
+
+    function callGeminiForColor() {
+        const prompt = `Suggest a single, exciting, and creative car color name. For example: 'Inferno Orange', 'Cosmic Blue', 'Stealth Black'. Only return the color name itself, with no extra text.`;
+        return callGemini(prompt);
+    }
+
+    async function callImagen(carName, modStyle, carType, cameraAngle, scene, time, season, color, livery) {
+        if (!HUGGING_FACE_TOKEN) { throw new Error("Hugging Face Token eksik."); }
+        const promptParts = {
+            camera: { front_3_4: 'A dynamic low-angle three-quarter front view shot of a', rear_3_4: 'A dynamic low-angle three-quarter rear view shot of a', side_profile: 'A clean, full side profile shot of a', low_front: 'An extreme low-angle three-quarter front view shot of a', low_rear: 'An extreme low-angle three-quarter rear view shot of a', high_front: 'A high-angle three-quarter front view shot looking down on a', high_rear: 'A high-angle three-quarter rear view shot looking down on a', rolling_shot: 'A dynamic rolling shot, capturing the motion of a' },
+            carType: { default: '', sedan: 'reimagined as a 4-door sedan,', suv: 'reimagined as a sporty SUV,', hatchback: 'reimagined as an aggressive 3-door hot-hatch,', station_wagon: "reimagined as a sleek 'Shooting Brake' with an extended roofline,", minivan: 'reimagined as a heavily modified JDM-style minivan,', pickup: 'completely converted into a custom sport pickup truck, with the rear passenger area replaced by a functional truck bed,', cabrio: 'reimagined as a 2-door convertible with the top down,' },
+            modStyle: { stock: 'in perfect, factory-stock condition. All parts are original, with a showroom finish, and no aftermarket modifications.', stancenation: `modified for the 'StanceNation' aesthetic, with an impossibly extreme negative camber ('oni-kyan' style). The car is slammed on air suspension to the point where the body rests on the ground. The fitment is the main focus.`, silhouette: `radically transformed into a Group 5 'silhouette' formula race car. The body is an unrecognizable, extremely wide, boxy shape with massive aerodynamic elements, a huge front spoiler, and a gigantic rear wing.`, drift: `reimagined as a professional drift competition car. It has a high-angle steering kit, a massive GT wing for downforce, and vented fenders.`, bosozoku: `radically transformed with an exaggerated 'Bosozoku' aesthetic. It features a massive, extended front spoiler ('deppa'), extremely long, upward-facing exhaust pipes ('takeyari'), and boxy fender flares.`, vip: `modified in the Japanese 'VIP' or 'Bippu' style. The focus is on clean luxury and an imposing stance. It's slammed on air suspension, features large, multi-piece, highly polished deep-dish wheels, and a subtle, clean body kit.`, lbwk: `modified with an extremely aggressive, authentic Liberty Walk (LBWK) wide-body aesthetic. It features signature LBWK massively oversized, bolted-on super-wide fender flares, an aggressive front splitter, deep side skirts, and a large GT wing.`, pandem: `modified with an authentic Pandem/Rocket Bunny wide-body aesthetic, known for its raw, race-inspired look. It features signature bolted-on super-wide fender flares with exposed hardware, a deep front lip spoiler, and a distinctive "swan neck" GT wing.`, rwb: `reimagined with the iconic RAUH-Welt BEGRIFF (RWB) aesthetic. It has extremely wide, riveted fender flares, a massive "champion" GT wing, and deep-dish Work Meister wheels.`, rally: `converted into a full-spec rally car. It features a lifted suspension, gravel tires, a prominent roof scoop, and a hood-mounted light pod.`, dtm: `converted with the aesthetic of a modern DTM touring car. It has an extremely boxy and aggressive wide-body kit, a massive front air dam, and a large adjustable rear wing.`, madmax: `converted for a post-apocalyptic world. The car is covered in scrap metal armor, rusty panels, and spikes. It has a massive supercharger sticking out of the hood, barred windows, and mismatched, rugged wheels.` },
+            livery: { none: ``, falken: `The car's body is covered in the iconic Falken Tire livery, with its signature teal and blue scallops and logos.`, monster: `The car is wrapped in a matte black Monster Energy livery, featuring the massive green claw mark logo prominently.`, martini: `The car is adorned with the classic Martini Racing livery, featuring the dark blue, light blue, and red stripes over a white or silver body.`, gulf: `The car is painted in the legendary Gulf Oil livery, with its powder blue body and a central orange stripe.`, jagermeister: `The car is covered in the iconic bright orange Jägermeister DTM livery with its stag logo.`, castrol: `The car features the unforgettable green and red Castrol TOM's Supra livery.` },
+            scene: { beyaz_studyo: `showcased in a vibrant, sterile white studio with a clean, seamless backdrop. The scene is illuminated by professional, mixed studio lighting.`, car_meet: `showcased at a vibrant car meet. The car is parked under mixed lighting, surrounded by the blurred motion of enthusiasts and other modified cars.`, basketball_court: `parked near a chain-link fence bordering a brightly lit urban basketball court. The shot is captured on classic photographic film, introducing realistic imperfections like subtle lens flares and film grain.` },
+            time: { morning: 'The lighting is the soft, golden light of early morning.', noon: 'The scene is lit by the bright, direct light of midday.', sunset: 'The scene is bathed in the warm, orange glow of a sunset.', night: 'The scene is at night, with dramatic, moody lighting.' },
+            season: { spring: 'The environment shows hints of spring, like fresh greenery.', summer: 'The atmosphere is that of a clear, bright summer day.', autumn: 'The ground is covered with colorful fallen autumn leaves.', winter: 'The scene is in winter, with a visible layer of snow on the ground and a cold atmosphere.' },
+            common: `The car has an exceptionally slammed stance (unless rally or offroad mod style is selected). It sits on ultra-wide, deep-dish aftermarket wheels with stretched tires and exaggerated negative camber. The windows are tinted dark. Painted in a striking ${color}. The final image must be an energetic, cinematic, and bold, ultra-detailed photorealistic 4K resolution shot.`
         };
-    </script>
-</body>
+        let carBodyDescription = (carType === 'default' || modStyle === 'stock') ? '' : promptParts.carType[carType];
+        let finalImagePrompt = `${promptParts.camera[cameraAngle]} ${carName}, ${carBodyDescription} ${promptParts.modStyle[modStyle]} ${promptParts.livery[livery]} The car is ${promptParts.scene[scene]}`;
+        if (scene !== 'beyaz_studyo') {
+            finalImagePrompt += ` ${promptParts.season[season]} ${promptParts.time[time]}`;
+        }
+        finalImagePrompt += ` ${promptParts.common}`;
+        const API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0";
+        const payload = { inputs: finalImagePrompt };
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${HUGGING_FACE_TOKEN}` },
+            body: JSON.stringify(payload)
+        });
+        if (!response.ok) {
+            const errorBody = await response.text();
+            console.error("Hugging Face API Error Response:", errorBody);
+            if (errorBody.includes("is currently loading")) {
+                 throw new Error("Model şu an yükleniyor, lütfen 20 saniye sonra tekrar deneyin.");
+            }
+            throw new Error(`Hugging Face API Hatası: ${response.statusText}`);
+        }
+        const imageBlob = await response.blob();
+        const imageUrl = URL.createObjectURL(imageBlob);
+        return imageUrl;
+    }
 
+    // --- UI Update and Helper Functions ---
+    function resetUI() {
+        resultCard.classList.remove('hidden');
+        contentWrapper.classList.add('hidden');
+        errorMessage.classList.add('hidden');
+    }
+
+    function showMainLoader(show) {
+        loadingIndicator.classList.toggle('hidden', !show);
+        generateButton.disabled = show;
+    }
+
+    function updateUIWithResults(modelText, descriptionText, imageUrl) {
+        carModel.textContent = modelText;
+        carDescription.textContent = descriptionText;
+        eventImage.src = imageUrl;
+        eventImage.onload = () => { contentWrapper.classList.remove('hidden'); };
+        eventImage.onerror = () => handleError(new Error(translations.errorImage[currentLanguage]), translations.errorImage[currentLanguage]);
+    }
+
+    function handleError(error, message) {
+        console.error(message, error);
+        contentWrapper.classList.add('hidden');
+        showMainLoader(false);
+        errorMessage.textContent = error.message || `${message} Lütfen tekrar deneyin.`;
+        errorMessage.classList.remove('hidden');
+    }
+
+    // --- Initialize ---
+    window.onload = () => {
+        try {
+            modernEraButton.textContent = `(2000-${currentRealYear})`;
+            setEra('modern');
+            populateLanguageDropdown();
+            setLanguage('tr');
+            updateConditionalInputs();
+        } catch(e) {
+            console.error("Kritik başlatma hatası:", e);
+            document.body.innerHTML = `<div class="text-red-500 text-center p-8">Uygulama başlatılırken kritik bir hata oluştu. Lütfen konsolu kontrol edin.</div>`;
+        }
+    };
+</script>
+</body>
 </html>
